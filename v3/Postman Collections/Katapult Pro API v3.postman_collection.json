@@ -1,0 +1,777 @@
+{
+  "info": {
+    "_postman_id": "8fc8520e-2228-4d9f-b19f-049709e1048a",
+    "name": "Katapult Pro API v3",
+    "description": "Katapult Pro API v3 — every endpoint in v3/openapi.yaml, grouped into folders by resource. Uses collection/environment variables: base_url, api_key, job_id, node_id, connection_id, section_id, photo_id, element_id, anchor_id, trace_id, user_id, company_id, model_key.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Root",
+      "item": [
+        {
+          "name": "Get Welcome",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/?{{api_key}}",
+            "description": "Welcome message. Confirms your API key authenticates successfully. Not charged tokens."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Jobs",
+      "item": [
+        {
+          "name": "List Jobs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/jobs?{{api_key}}&includeArchived=false&list=false&last_updated=2026-01-01T00:00:00Z&limit=50"
+          }
+        },
+        {
+          "name": "Create Job",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}v3/jobs?{{api_key}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Sample Job\",\n  \"model\": \"Default\",\n  \"map_styles\": \"default\",\n  \"metadata\": {\n    \"city\": \"Sample City\"\n  },\n  \"sharing\": {\n    \"-OExampleCompanyId\": \"write\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Job (partial)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}?{{api_key}}&paths=name,metadata"
+          }
+        },
+        {
+          "name": "Update Job",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}v3/jobs/{{job_id}}?{{api_key}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Job Name\",\n  \"metadata\": {\n    \"city\": \"Updated City\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Raw Job Write",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/raw?{{api_key}}",
+            "description": "Restricted — requires extended API access (disabled in production).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nodes/{{node_id}}/latitude\": 40\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Job Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/status?{{api_key}}"
+          }
+        },
+        {
+          "name": "Update Job Status",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/status?{{api_key}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"archived\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Nodes",
+      "item": [
+        {
+          "name": "List Nodes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/nodes?{{api_key}}&last_updated=2026-01-01T00:00:00Z&limit=50"
+          }
+        },
+        {
+          "name": "Create Node",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/nodes?{{api_key}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"latitude\": 40,\n  \"longitude\": -105,\n  \"add_attributes\": {\n    \"node_type\": \"pole\",\n    \"scid\": \"001\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Node",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/nodes/{{node_id}}?{{api_key}}"
+          }
+        },
+        {
+          "name": "Update Node",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/nodes/{{node_id}}?{{api_key}}&onlyIfExists=true",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"latitude\": 40.0001,\n  \"longitude\": -105.0001,\n  \"add_attributes\": {\n    \"scid\": \"002\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete Node",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/nodes/{{node_id}}?{{api_key}}"
+          }
+        },
+        {
+          "name": "Upload Photo to Node",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "image/jpeg"
+              }
+            ],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/nodes/{{node_id}}/photos?{{api_key}}&association_value=true",
+            "body": {
+              "mode": "file",
+              "file": {}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Connections",
+      "item": [
+        {
+          "name": "List Connections",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/connections?{{api_key}}"
+          }
+        },
+        {
+          "name": "Create Connection",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/connections?{{api_key}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"node_id_1\": \"{{node_id}}\",\n  \"node_id_2\": \"{{node_id}}\",\n  \"add_attributes\": {\n    \"connection_type\": \"aerial\"\n  },\n  \"breakpoints\": [\n    [\n      40.0005,\n      -105.0005\n    ]\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Connection",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/connections/{{connection_id}}?{{api_key}}"
+          }
+        },
+        {
+          "name": "Update Connection",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/connections/{{connection_id}}?{{api_key}}&onlyIfExists=true",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"add_attributes\": {\n    \"connection_type\": \"underground\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete Connection",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/connections/{{connection_id}}?{{api_key}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sections",
+      "item": [
+        {
+          "name": "List Sections",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/connections/{{connection_id}}/sections?{{api_key}}"
+          }
+        },
+        {
+          "name": "Create Section",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/connections/{{connection_id}}/sections?{{api_key}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"make_midpoint\": true,\n  \"add_attributes\": {\n    \"scid\": \"001-1\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Section",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/connections/{{connection_id}}/sections/{{section_id}}?{{api_key}}"
+          }
+        },
+        {
+          "name": "Update Section",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/connections/{{connection_id}}/sections/{{section_id}}?{{api_key}}&onlyIfExists=true",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"latitude\": 40.0003,\n  \"longitude\": -105.0003\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete Section",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/connections/{{connection_id}}/sections/{{section_id}}?{{api_key}}"
+          }
+        },
+        {
+          "name": "Upload Photo to Section",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "image/jpeg"
+              }
+            ],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/connections/{{connection_id}}/sections/{{section_id}}/photos?{{api_key}}&association_value=true",
+            "body": {
+              "mode": "file",
+              "file": {}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Photos",
+      "item": [
+        {
+          "name": "List Photos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/photos?{{api_key}}"
+          }
+        },
+        {
+          "name": "Upload Photo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "image/jpeg"
+              }
+            ],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/photos?{{api_key}}",
+            "body": {
+              "mode": "file",
+              "file": {}
+            }
+          }
+        },
+        {
+          "name": "Get Photo",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/photos/{{photo_id}}?{{api_key}}"
+          }
+        },
+        {
+          "name": "Get Photo URL",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/photos/{{photo_id}}/url?{{api_key}}&file_size=full&file_type=webp"
+          }
+        },
+        {
+          "name": "Associate Photo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/photos/{{photo_id}}/associate?{{api_key}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"node_id\": \"{{node_id}}\",\n  \"association_value\": \"main\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Photo Elements",
+      "item": [
+        {
+          "name": "List Photo Elements",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/photos/{{photo_id}}/photo_elements?{{api_key}}"
+          }
+        },
+        {
+          "name": "Create Photo Element",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/photos/{{photo_id}}/photo_elements?{{api_key}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"element_type\": \"attachment\",\n  \"pixel_selection\": {\n    \"percentX\": 0.5,\n    \"percentY\": 0.5\n  },\n  \"manual_height\": \"25-6\",\n  \"attributes\": {\n    \"equipment_type\": \"transformer\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Photo Element",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/photos/{{photo_id}}/photo_elements/{{element_id}}?{{api_key}}"
+          }
+        },
+        {
+          "name": "Update Photo Element",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/photos/{{photo_id}}/photo_elements/{{element_id}}?{{api_key}}&onlyIfExists=true",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"manual_height\": \"26-0\",\n  \"attributes\": {\n    \"equipment_type\": \"riser\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete Photo Element",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/photos/{{photo_id}}/photo_elements/{{element_id}}?{{api_key}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Calibration Anchors",
+      "item": [
+        {
+          "name": "List Calibration Anchors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/photos/{{photo_id}}/calibration_anchors?{{api_key}}"
+          }
+        },
+        {
+          "name": "Create Calibration Anchor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/photos/{{photo_id}}/calibration_anchors?{{api_key}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pixel_selection\": {\n    \"percentX\": 0.25,\n    \"percentY\": 0.75\n  },\n  \"height\": 20\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Calibration Anchor",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/photos/{{photo_id}}/calibration_anchors/{{anchor_id}}?{{api_key}}"
+          }
+        },
+        {
+          "name": "Update Calibration Anchor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/photos/{{photo_id}}/calibration_anchors/{{anchor_id}}?{{api_key}}&onlyIfExists=true",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"height\": 22.5\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete Calibration Anchor",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/photos/{{photo_id}}/calibration_anchors/{{anchor_id}}?{{api_key}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Traces",
+      "item": [
+        {
+          "name": "List Traces",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/traces?{{api_key}}"
+          }
+        },
+        {
+          "name": "Create Trace",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/traces?{{api_key}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trace_type\": \"primary\",\n  \"attributes\": {\n    \"company\": \"Sample Utility\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Trace",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/traces/{{trace_id}}?{{api_key}}"
+          }
+        },
+        {
+          "name": "Update Trace",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/traces/{{trace_id}}?{{api_key}}&onlyIfExists=true",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"attributes\": {\n    \"company\": \"Updated Utility\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete Trace",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{base_url}}v3/jobs/{{job_id}}/traces/{{trace_id}}?{{api_key}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Models",
+      "item": [
+        {
+          "name": "List Models",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/models?{{api_key}}"
+          }
+        },
+        {
+          "name": "Get Model",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/models/{{model_key}}?{{api_key}}&paths=equipment,cable_types"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "List Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/users?{{api_key}}"
+          }
+        },
+        {
+          "name": "Get User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/users/{{user_id}}?{{api_key}}"
+          }
+        },
+        {
+          "name": "Get User Active State",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/users/{{user_id}}/active_state?{{api_key}}",
+            "description": "Restricted — requires extended API access and the enable_api_user_state_calls feature flag."
+          }
+        },
+        {
+          "name": "Set User Active State",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}v3/users/{{user_id}}/active_state?{{api_key}}",
+            "description": "Restricted — requires extended API access and the enable_api_user_state_calls feature flag.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"jobs/{{job_id}}/nodes/{{node_id}}\",\n  \"page\": \"map\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Companies",
+      "item": [
+        {
+          "name": "List Tracked Actions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/companies/{{company_id}}/tracked_actions?{{api_key}}&limit=200"
+          }
+        },
+        {
+          "name": "Get Action Models",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}v3/companies/{{company_id}}/action_models?{{api_key}}"
+          }
+        }
+      ]
+    }
+  ]
+}
